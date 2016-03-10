@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mr. Nobody&#39;s blog by aEi1Ki</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/aEi1Ki">View On GitHub</a></li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Mr. Nobody&#39;s blog</h1>
+          <p>welcome to my blog</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/aEi1Ki">aEi1Ki</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>
+<a id="welcome-to-my-new-blog" class="anchor" href="#welcome-to-my-new-blog" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to my new blog.</h3>
+
+<p>原文链接:<a href="http://www.cnblogs.com/eric-z/p/5028243.html">http://www.cnblogs.com/eric-z/p/5028243.html</a>
+     上周五写了一个实现原理篇，在评论中看到有朋友也遇到了我的问题，真的是有种他乡遇知己的感觉，整个系列我一定会坚持写完，并在最后把代码开源到git中。上一篇文章很多人看了以后，都表示不解，觉得不知道我到底要干什么，可能就像隔行如隔山吧，就像做移动端开发的人很少去考虑分布式中的通信一样。大家都知道模块化，但模块化的思路有很多，我的只是其中一种，也许你看到最后会觉得这种思路在经过不断地演化后会成为一种很好的解决方案，当然这离不开以后大家对代码及思想的贡献。
+　　好了不扯了，还是回到主题上来吧....
+　　沙箱是什么？怎么用呢？
+　沙箱说白了就是插件、模块运行的环境，有点像docker又不像（哈哈）。沙箱主要由两部分组成：沙箱管道和沙箱启动器（为了显得高大上一些，就起了两个难以理解的名字），还有一个以后为功能做铺垫的实体类——controller/action 封包类
+　　首先贴一下这个实体类的代码：</p>
+
+<p><code>/// &lt;summary&gt;controller/action 封包类
+ /// &lt;/summary&gt;
+ public class CAModel
+ {
+ public string ControllerName{get;set;}
+ public string ActionName{get;set;}
+ public string UrlPath { get; set; }
+ /// &lt;summary&gt;构造
+ /// &lt;/summary&gt;
+ /// &lt;param name="controllerName"&gt;controller 全名（带命名空间）&lt;/param&gt;
+ /// &lt;param name="actionName"&gt;action 全名（不带参数）&lt;/param&gt;
+ public CAModel(string controllerName,string actionName)
+ {
+ ControllerName=controllerName;
+ ActionName=actionName;
+ UrlPath = controllerName.Replace(".Areas.", "/").Replace(".Controllers.", "/");//controller转Url
+ if (UrlPath.EndsWith("Controller"))
+ {
+ UrlPath = string.Format("/{0}/{1}", UrlPath.Substring(0, UrlPath.Length - 10),actionName);
+ }
+ }
+ public CAModel()
+ { 
+ }
+ }</code></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
